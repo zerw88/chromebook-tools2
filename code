@@ -1,0 +1,118 @@
+#!/bin/bash
+# ======================================================
+# PROJECT: DELL 11 3180 ULTIMATE TOOLS v3.0
+# AUTHOR: zerw88 (GitHub)
+# TARGET: Dell Chromebook 11 (3180/3189) - KEFKA
+# ======================================================
+
+# --- الألوان والتنسيق ---
+R='\033[0;31m'; G='\033[0;32m'; Y='\033[1;33m'; B='\033[0;34m'; C='\033[0;36m'; NC='\033[0m'
+ADMIN_PASS="3180"
+
+# --- دالة الواجهة ---
+header() {
+    clear
+    echo -e "${C}======================================================${NC}"
+    echo -e "${G}          DELL 11 3180 ULTIMATE TOOLS v3.0           ${NC}"
+    echo -e "${Y}          [The Power of KEFKA in Your Hands]         ${NC}"
+    echo -e "${C}======================================================${NC}"
+}
+
+# ------------------------------------------------------
+# 1. المستوى العادي (Safe Mode - 20 ميزة)
+# ------------------------------------------------------
+level_1() {
+    header
+    echo -e "${G}[ المستوى العادي - Safe Mode ]${NC}"
+    echo "1) تنظيف الذاكرة المؤقتة (Cache)  11) عرض حالة البطارية"
+    echo "2) مسح ملفات الـ Temp            12) معلومات المعالج N3060"
+    echo "3) ربط Downloads بالـ SD Card    13) فحص سرعة الإنترنت"
+    echo "4) تفريغ سلة المهملات            14) تفعيل وضع توفير الطاقة"
+    echo "5) تحرير مساحة الـ Rootfs        15) تفعيل وضع الأداء العالي"
+    echo "6) فحص صحة قرص الـ SD           16) عرض الأجهزة المتصلة USB"
+    echo "7) عرض مساحة التخزين المتبقية    17) تحديث توقيت الجهاز"
+    echo "8) إصلاح نظام الملفات            18) مسح الصور المصغرة (Icons)"
+    echo "9) كتم أصوات النظام المزعجة      19) إعادة تشغيل واجهة الكروم"
+    echo "10) أداة فحص بكسلات الشاشة        20) عرض استهلاك الرام (RAM)"
+    echo "------------------------------------------------------"
+    read -p "اختر ميزة (0 للعودة): " opt1
+    case $opt1 in
+        3) 
+            echo "Linking Downloads to SD Card..."
+            sudo mount -o remount,rw /
+            [ -d "/media/removable/SD Card" ] && ln -s "/media/removable/SD Card" /home/chronos/user/Downloads/SD_Storage && echo "Done!" || echo "SD Card not found!"
+            ;;
+        *) echo "جاري العمل على تفعيل هذه الميزة في التحديث القادم..." ;;
+    esac
+}
+
+# ------------------------------------------------------
+# 2. المستوى المتوسط (Dev Mode - 20 ميزة)
+# ------------------------------------------------------
+level_2() {
+    header
+    echo -e "${Y}[ المستوى المتوسط - Dev Mode ]${NC}"
+    echo "1) تثبيت Chromebrew (Crew)       11) تثبيت محرر Nano"
+    echo "2) إعداد بيئة Python 3           12) تثبيت أدوات Git"
+    echo "3) تثبيت GCC & C++ Compiler      13) تشغيل خادم Web محلي"
+    echo "4) تفعيل ADB للاندرويد           14) تثبيت أدوات Java"
+    echo "5) تثبيت Terminal Emulator       15) تحسين أداء Linux"
+    echo "6) تثبيت Node.js & NPM           16) فك ضغط الملفات (zip/tar)"
+    echo "7) تثبيت Minecraft Java Tool     17) عرض سجل الأخطاء (Logs)"
+    echo "8) رموز غش GTA V (الرموز)        18) تفعيل بروتوكول SSH"
+    echo "9) تحويل صيغ الصور عبر Shell     19) تثبيت أدوات Nmap"
+    echo "10) محمل فيديوهات YouTube        20) إعداد بيئة VS Code Web"
+    echo "------------------------------------------------------"
+    read -p "اختر ميزة (0 للعودة): " opt2
+    case $opt2 in
+        1) curl -Ls git.io/brew | bash ;;
+        *) echo "جاري العمل على تفعيل هذه الميزة..." ;;
+    esac
+}
+
+# ------------------------------------------------------
+# 3. المستوى الخطر (Danger Zone - 20 ميزة)
+# ------------------------------------------------------
+level_3() {
+    header
+    echo -e "${R}[ مستوى الخطر - Flash & BIOS ]${NC}"
+    echo -ne "${Y}أدخل كلمة المرور: ${NC}"; read -s pass
+    if [ "$pass" != "$ADMIN_PASS" ]; then echo -e "\n${R}كلمة مرور خاطئة!${NC}"; sleep 1; return; fi
+    
+    echo -e "\n1) تغيير الهوية (HWID Change)    11) تفعيل USB Boot"
+    echo "2) سحب BIOS Backup             12) تفعيل Legacy Boot (Ctrl+L)"
+    echo "3) تصفير GBB Flags (0x0)         13) إزالة شاشة التحذير (0x1)"
+    echo "4) تثبيت Full UEFI (MrChrome)    14) تعديل فولتية المعالج"
+    echo "5) تغيير Serial Number           15) فحص شريحة الفلاش (ID)"
+    echo "6) تعطيل الـ WP برمجياً          16) تعريف يد تحكم PS3 (USB)"
+    echo "7) تعديل قيم الـ VPD             17) إصلاح تعريف الصوت (SST)"
+    echo "8) تثبيت Dual Boot Linux         18) إيقاف وضع الـ Recovery"
+    echo "9) تغيير Board Name (KEFKA)      19) كتابة BIOS معدل"
+    echo "10) تصفير عداد الإقلاع           20) وضع المصنع (Factory Mode)"
+    echo "------------------------------------------------------"
+    read -p "اختر ميزة خطيرة (0 للعودة): " opt3
+    case $opt3 in
+        1) 
+            read -p "Enter New HWID: " new_id
+            sudo flashrom -r /tmp/bios.bin && gbb_utility -s --hwid="$new_id" /tmp/bios.bin && sudo flashrom -w /tmp/bios.bin
+            ;;
+        2) sudo flashrom -r /home/chronos/user/Downloads/bios_backup.bin && echo "Backup saved to Downloads." ;;
+        *) echo "تنبيه: هذه الميزة تتطلب صلاحيات Root كاملة." ;;
+    esac
+}
+
+# --- القائمة الرئيسية ---
+while true; do
+    header
+    echo -e "1) ${G}المستوى العادي (Safe - 20 ميزة)${NC}"
+    echo -e "2) ${Y}المستوى المتوسط (Dev - 20 ميزة)${NC}"
+    echo -e "3) ${R}المستوى الخطر (Danger - 20 ميزة)${NC}"
+    echo "4) خروج"
+    read -p "اختر المستوى المطلوب: " main_opt
+    case $main_opt in
+        1) level_1 ;;
+        2) level_2 ;;
+        3) level_3 ;;
+        4) exit 0 ;;
+    esac
+done
